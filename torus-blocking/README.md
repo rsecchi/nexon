@@ -60,6 +60,7 @@ tries the other if the first is blocked.
 | `torus_equivalent_load.py` | Fits Φ and checks ErlangB(Φ·a, K), continuity, fixed routing | `torus_low_sim.csv`, `torus_wdm_sim.csv` | `torus_equivalent_load.png` |
 | `torus_compare.py` | Φ with and without continuity, fixed routing | `torus_free_sim.csv`, `torus_low_sim.csv`, `torus_wdm_sim.csv` | `torus_compare.png` |
 | `torus_adaptive.py` | Φ for adaptive routing against fixed routing | `torus_adaptive_sim.csv`, `torus_free_sim.csv`, `torus_low_sim.csv` | `torus_adaptive.png` |
+| `torus_draw_grid.py` | Picture of the grid with node coordinates and link IDs as the simulators number them (`python3 analysis/torus_draw_grid.py 7`) | – | `torus_grid_3x3.png`, `torus_grid_7x7.png` |
 
 ## Reproducing
 
