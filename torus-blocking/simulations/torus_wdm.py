@@ -13,6 +13,7 @@ import random
 from collections import Counter
 from multiprocessing import Pool
 import numpy as np
+from paths import DATA, PLOTS
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -122,7 +123,7 @@ if __name__ == "__main__":
     jobs = [(N, a, ff) for N in SIZES for a in SIM_LOADS for ff in (0, 1)]
     with Pool() as pool:
         sim = np.array(pool.map(simulate, jobs, chunksize=1))
-    np.savetxt("torus_wdm_sim.csv", sim, delimiter=",", fmt="%.6g",
+    np.savetxt(DATA / "torus_wdm_sim.csv", sim, delimiter=",", fmt="%.6g",
                header="N,offered_load_per_link,first_fit,utilisation,blocking")
 
     INK, MUTED, GRID = "#0b0b0b", "#898781", "#e1e0d9"
@@ -156,4 +157,4 @@ if __name__ == "__main__":
     fig.suptitle(f"Blocking vs utilisation with wavelength continuity, N×N toroidal grid, K = {K} wavelengths",
                  x=0.012, ha="left", fontsize=13, fontweight="bold")
     fig.tight_layout(rect=(0, 0.06, 1, 0.95))
-    fig.savefig("torus_wdm_blocking.png", dpi=160, facecolor="white")
+    fig.savefig(PLOTS / "torus_wdm_blocking.png", dpi=160, facecolor="white")

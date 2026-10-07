@@ -15,6 +15,7 @@ import random
 import sys
 from multiprocessing import Pool
 import numpy as np
+from paths import DATA
 
 K, MU = 10, 1.0
 SIZES = [5, 7, 9]
@@ -95,5 +96,5 @@ if __name__ == "__main__":
     jobs = [(N, a, c) for c in (0, 1) for N in SIZES for a in LOADS[c]]
     with Pool() as pool:
         sim = pool.map(simulate, jobs, chunksize=1)
-    np.savetxt("torus_adaptive_sim.csv", sim, delimiter=",", fmt="%.6g",
+    np.savetxt(DATA / "torus_adaptive_sim.csv", sim, delimiter=",", fmt="%.6g",
                header="N,offered_load_per_link,continuity,utilisation,blocking")

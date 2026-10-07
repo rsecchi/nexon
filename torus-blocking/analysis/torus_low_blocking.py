@@ -15,6 +15,7 @@ simulations of torus_low_sim.py.
 from collections import Counter
 from math import factorial
 import numpy as np
+from paths import DATA, PLOTS
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -58,7 +59,7 @@ def load_for(model, N, target):
 
 
 if __name__ == "__main__":
-    sim = np.loadtxt("torus_low_sim.csv", delimiter=",")   # produced by torus_low_sim.py
+    sim = np.loadtxt(DATA / "torus_low_sim.csv", delimiter=",")   # produced by torus_low_sim.py
     arrivals = 5_000_000
 
     print("  N  load   util |  simulated (+-)    one-pass  fixed-pt  Birman   | one-pass/sim")
@@ -105,4 +106,4 @@ if __name__ == "__main__":
     fig.suptitle(f"Low-blocking region with wavelength continuity, N×N toroidal grid, K = {K} wavelengths",
                  x=0.012, ha="left", fontsize=13, fontweight="bold")
     fig.tight_layout(rect=(0, 0.06, 1, 0.95))
-    fig.savefig("torus_low_blocking.png", dpi=160, facecolor="white")
+    fig.savefig(PLOTS / "torus_low_blocking.png", dpi=160, facecolor="white")

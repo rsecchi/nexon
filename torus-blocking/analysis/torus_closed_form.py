@@ -19,6 +19,7 @@ placed on wavelengths uniformly at random.
 from collections import Counter
 from math import comb, factorial
 import numpy as np
+from paths import DATA
 from torus_wdm import build, K, SIZES
 
 
@@ -61,7 +62,7 @@ def blocking(N, a):
 
 
 if __name__ == "__main__":
-    sim = np.loadtxt("torus_low_sim.csv", delimiter=",")   # produced by torus_low_sim.py
+    sim = np.loadtxt(DATA / "torus_low_sim.csv", delimiter=",")   # produced by torus_low_sim.py
     print("  N  load | simulated  closed form  ratio")
     for N, a, _, _, blk in sim:
         b = blocking(int(N), a)

@@ -2,6 +2,7 @@
 import random
 from multiprocessing import Pool
 import numpy as np
+from paths import DATA
 from torus_wdm import build, K, MU, SIZES
 
 N_ARRIVALS, WARMUP = 3_000_000, 100_000
@@ -36,5 +37,5 @@ def simulate(args):
 if __name__ == "__main__":
     with Pool() as pool:
         sim = pool.map(simulate, [(N, a) for N in SIZES for a in LOADS], chunksize=1)
-    np.savetxt("torus_free_sim.csv", sim, delimiter=",", fmt="%.6g",
+    np.savetxt(DATA / "torus_free_sim.csv", sim, delimiter=",", fmt="%.6g",
                header="N,offered_load_per_link,utilisation,blocking")

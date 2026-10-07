@@ -6,9 +6,18 @@ inter-satellite links per node, K channels per link). Connections arrive as a
 Poisson process, have uniformly chosen destinations and exponential holding
 times, and follow a shortest path.
 
-All scripts are plain Python 3 with `numpy` and `matplotlib`. Run them from this
-directory: they import each other and read/write files here. Defaults are
-K = 10 and grids 5×5, 7×7, 9×9; the constants are at the top of each script.
+All scripts are plain Python 3 with `numpy` and `matplotlib`, and can be run from
+any directory. Defaults are K = 10 and grids 5×5, 7×7, 9×9; the constants are at
+the top of each script.
+
+## Layout
+
+    simulations/     event-driven simulators (write to results/)
+    analysis/        analytical models, fitting and plotting (read results/data)
+    results/data/    simulated points, one CSV per simulator
+    results/plots/   figures
+
+`paths.py` in each script folder defines where results are read and written.
 
 ## Main result
 
@@ -30,18 +39,18 @@ wavelength assignment). "Fixed routing" is intra-plane hops first, then
 inter-plane. "Adaptive" picks intra- or inter-plane at random at each node and
 tries the other if the first is blocked.
 
-## Simulators
+## Simulators (`simulations/`)
 
 | Script | What it simulates | Output |
 |---|---|---|
 | `torus_blocking.py` | First version: no continuity, fixed routing, 7×7. Compares the event simulation, Kelly's rejection sampling, Erlang B and the Erlang fixed point (prints a table) | – |
-| `torus_plots.py` | No continuity, fixed routing, loads 2.5–9 Erlang | `torus_sim.csv`, `torus_blocking.png` |
-| `torus_wdm.py` | Wavelength continuity, fixed routing, random and first-fit assignment, loads 1–8 Erlang. Also defines `build()` (routes) used by the other scripts | `torus_wdm_sim.csv`, `torus_wdm_blocking.png` |
+| `torus_plots.py` | No continuity, fixed routing, loads 2.5–9 Erlang; also draws its own plot against Erlang B and the fixed point | `torus_sim.csv`, `torus_blocking.png` |
+| `torus_wdm.py` | Wavelength continuity, fixed routing, random and first-fit assignment, loads 1–8 Erlang; also draws its own plot. Defines `build()` (routes) used by the other scripts | `torus_wdm_sim.csv`, `torus_wdm_blocking.png` |
 | `torus_low_sim.py` | Continuity, fixed routing, long runs in the low-blocking region | `torus_low_sim.csv` |
 | `torus_free_sim.py` | No continuity, fixed routing, long runs in the low-blocking region | `torus_free_sim.csv` |
 | `torus_adaptive_sim.py` | Adaptive routing, with and without continuity | `torus_adaptive_sim.csv` |
 
-## Models and plots
+## Models and plots (`analysis/`)
 
 | Script | Content | Needs | Plot |
 |---|---|---|---|
@@ -54,19 +63,19 @@ tries the other if the first is blocked.
 
 ## Reproducing
 
-    python3 torus_plots.py           # ~2.5 min on 2 cores
-    python3 torus_wdm.py             # ~3 min
-    python3 torus_low_sim.py         # ~7 min
-    python3 torus_free_sim.py        # ~2 min
-    python3 torus_adaptive_sim.py    # ~10 min
-    python3 torus_reduced_load.py
-    python3 torus_low_blocking.py
-    python3 torus_closed_form.py
-    python3 torus_equivalent_load.py
-    python3 torus_compare.py
-    python3 torus_adaptive.py
+    python3 simulations/torus_plots.py           # ~2.5 min on 2 cores
+    python3 simulations/torus_wdm.py             # ~3 min
+    python3 simulations/torus_low_sim.py         # ~7 min
+    python3 simulations/torus_free_sim.py        # ~2 min
+    python3 simulations/torus_adaptive_sim.py    # ~10 min
+    python3 analysis/torus_reduced_load.py
+    python3 analysis/torus_low_blocking.py
+    python3 analysis/torus_closed_form.py
+    python3 analysis/torus_equivalent_load.py
+    python3 analysis/torus_compare.py
+    python3 analysis/torus_adaptive.py
 
-The CSV files in this directory are the results of these runs, so the model and
+The CSV files in `results/data` are the results of these runs, so the model and
 plot scripts can be run directly without repeating the simulations.
 
 ## Caveats

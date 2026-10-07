@@ -6,6 +6,7 @@ Reads torus_adaptive_sim.csv, plus the fixed-routing results torus_free_sim.csv
 (no continuity) and torus_low_sim.csv (continuity).
 """
 import numpy as np
+from paths import DATA, PLOTS
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -20,9 +21,9 @@ def fit_phi(load, blocking):
 
 
 if __name__ == "__main__":
-    adaptive = np.loadtxt("torus_adaptive_sim.csv", delimiter=",")   # N, load, cont, util, blocking
-    fixed = {0: np.loadtxt("torus_free_sim.csv", delimiter=",")[:, [0, 1, 3]],
-             1: np.loadtxt("torus_low_sim.csv", delimiter=",")[:, [0, 1, 4]]}
+    adaptive = np.loadtxt(DATA / "torus_adaptive_sim.csv", delimiter=",")   # N, load, cont, util, blocking
+    fixed = {0: np.loadtxt(DATA / "torus_free_sim.csv", delimiter=",")[:, [0, 1, 3]],
+             1: np.loadtxt(DATA / "torus_low_sim.csv", delimiter=",")[:, [0, 1, 4]]}
     titles = {0: "Without wavelength continuity", 1: "With wavelength continuity"}
 
     INK, MUTED, GRID = "#0b0b0b", "#898781", "#e1e0d9"
@@ -67,4 +68,4 @@ if __name__ == "__main__":
     fig.suptitle(f"Adaptive shortest-path routing, N×N toroidal grid, K = {K} channels per link",
                  x=0.012, ha="left", fontsize=13, fontweight="bold")
     fig.tight_layout(rect=(0, 0.05, 1, 0.95))
-    fig.savefig("torus_adaptive.png", dpi=160, facecolor="white")
+    fig.savefig(PLOTS / "torus_adaptive.png", dpi=160, facecolor="white")

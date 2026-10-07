@@ -6,6 +6,7 @@ Reads torus_free_sim.csv (no continuity) and torus_low_sim.csv / torus_wdm_sim.c
 (continuity, random wavelength assignment). PHI is fitted on points below 1%.
 """
 import numpy as np
+from paths import DATA, PLOTS
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -21,9 +22,9 @@ def fit_phi(load, blocking):
 
 
 if __name__ == "__main__":
-    free = np.loadtxt("torus_free_sim.csv", delimiter=",")         # N, load, util, blocking
-    low = np.loadtxt("torus_low_sim.csv", delimiter=",")           # N, load, ff, util, blocking
-    wide = np.loadtxt("torus_wdm_sim.csv", delimiter=",")
+    free = np.loadtxt(DATA / "torus_free_sim.csv", delimiter=",")         # N, load, util, blocking
+    low = np.loadtxt(DATA / "torus_low_sim.csv", delimiter=",")           # N, load, ff, util, blocking
+    wide = np.loadtxt(DATA / "torus_wdm_sim.csv", delimiter=",")
     wide = wide[(wide[:, 2] == 0) & (wide[:, 1] > 3.0) & (wide[:, 1] <= 4.0)]
     cont = np.vstack([low, wide])[:, [0, 1, 3, 4]]
     cases = [("Without wavelength continuity", free), ("With wavelength continuity", cont)]
@@ -63,7 +64,7 @@ if __name__ == "__main__":
     fig.suptitle(f"Equivalent-load rule with and without wavelength continuity, K = {K} channels per link",
                  x=0.012, ha="left", fontsize=13, fontweight="bold")
     fig.tight_layout(rect=(0, 0.05, 1, 0.95))
-    fig.savefig("torus_compare.png", dpi=160, facecolor="white")
+    fig.savefig(PLOTS / "torus_compare.png", dpi=160, facecolor="white")
 
     for N in SIZES:
         hops = np.mean([len(r) for r in build(N)])

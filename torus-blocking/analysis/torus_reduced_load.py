@@ -20,6 +20,7 @@ Two versions:
 from collections import Counter
 from math import comb
 import numpy as np
+from paths import DATA, PLOTS
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -75,7 +76,7 @@ def reduced_load(N, a, correlated):
 
 
 if __name__ == "__main__":
-    sim = np.loadtxt("torus_wdm_sim.csv", delimiter=",")   # produced by torus_wdm.py
+    sim = np.loadtxt(DATA / "torus_wdm_sim.csv", delimiter=",")   # produced by torus_wdm.py
     sim = sim[sim[:, 2] == 0]                              # random wavelength assignment
     loads = np.linspace(0.8, 9, 42)
 
@@ -109,4 +110,4 @@ if __name__ == "__main__":
     fig.suptitle(f"Reduced-load models with wavelength continuity, N×N toroidal grid, K = {K} wavelengths",
                  x=0.012, ha="left", fontsize=13, fontweight="bold")
     fig.tight_layout(rect=(0, 0.06, 1, 0.95))
-    fig.savefig("torus_reduced_load.png", dpi=160, facecolor="white")
+    fig.savefig(PLOTS / "torus_reduced_load.png", dpi=160, facecolor="white")

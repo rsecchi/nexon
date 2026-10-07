@@ -10,6 +10,7 @@ Routing: shortest way round, intra-plane hops first, then inter-plane hops.
 import random
 from multiprocessing import Pool
 import numpy as np
+from paths import DATA, PLOTS
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -98,7 +99,7 @@ def simulate(args):
 if __name__ == "__main__":
     with Pool() as pool:
         sim = pool.map(simulate, [(N, a) for N in SIZES for a in SIM_LOADS], chunksize=1)
-    np.savetxt("torus_sim.csv", sim, delimiter=",", fmt="%.6g",
+    np.savetxt(DATA / "torus_sim.csv", sim, delimiter=",", fmt="%.6g",
                header="N,offered_load_per_link,utilisation,link_blocking,path_blocking")
     sim = np.array(sim)
 
@@ -136,4 +137,4 @@ if __name__ == "__main__":
     fig.suptitle(f"Blocking vs utilisation in an N×N toroidal grid, K = {K} channels per link",
                  x=0.012, ha="left", fontsize=13, fontweight="bold")
     fig.tight_layout(rect=(0, 0.06, 1, 0.96))
-    fig.savefig("torus_blocking.png", dpi=160, facecolor="white")
+    fig.savefig(PLOTS / "torus_blocking.png", dpi=160, facecolor="white")

@@ -10,6 +10,7 @@ PHI is fitted here to the long simulations of torus_low_sim.py (points below 1%
 blocking) and the rule is then compared with every simulated point.
 """
 import numpy as np
+from paths import DATA, PLOTS
 
 K = 10
 
@@ -31,7 +32,7 @@ def erlang_load(blocking, k=K):
 
 
 if __name__ == "__main__":
-    sim = np.loadtxt("torus_low_sim.csv", delimiter=",")
+    sim = np.loadtxt(DATA / "torus_low_sim.csv", delimiter=",")
     for N in (5, 7, 9):
         s = sim[sim[:, 0] == N]
         factors = np.array([erlang_load(b) / a for a, b in zip(s[:, 1], s[:, 4])])
@@ -49,7 +50,7 @@ if __name__ == "__main__":
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    wide = np.loadtxt("torus_wdm_sim.csv", delimiter=",")      # earlier, shorter runs
+    wide = np.loadtxt(DATA / "torus_wdm_sim.csv", delimiter=",")      # earlier, shorter runs
     wide = wide[(wide[:, 2] == 0) & (wide[:, 1] > 3.0) & (wide[:, 1] <= 5.0)]
     points = np.vstack([sim, wide])
     INK, MUTED, GRID = "#0b0b0b", "#898781", "#e1e0d9"
@@ -82,4 +83,4 @@ if __name__ == "__main__":
     ax.set_title(f"Equivalent-load rule with wavelength continuity, K = {K} wavelengths",
                  loc="left", fontsize=13, fontweight="bold", pad=14)
     fig.tight_layout()
-    fig.savefig("torus_equivalent_load.png", dpi=160, facecolor="white")
+    fig.savefig(PLOTS / "torus_equivalent_load.png", dpi=160, facecolor="white")
