@@ -39,6 +39,20 @@ wavelength assignment). "Fixed routing" is intra-plane hops first, then
 inter-plane. "Adaptive" picks intra- or inter-plane at random at each node and
 tries the other if the first is blocked.
 
+### OBS: the sender picks the wavelength
+
+In all the results above the wavelength is chosen knowing the state of the whole
+path. If instead the source picks a wavelength free on its own outgoing link and
+every node must reuse it (one-way reservation, no conversion), the loss is far
+higher and follows an Erlang formula with ONE channel:
+
+    burst loss ≈ x / (1 + x),    x = Φ₁ · a / K
+
+    Φ₁ = N(n−1)/(n+1)² + n/(n+1) − 2n²/(N(n+1)²),   n = (N−1)/2
+
+Φ₁ = 1.04, 1.46, 1.74 for 5×5, 7×7, 9×9. It is derived from the routing, not
+fitted. With K = 10, 1% loss is reached at 0.10, 0.07 and 0.06 Erlang per link.
+
 ## Simulators (`simulations/`)
 
 | Script | What it simulates | Output |
@@ -50,6 +64,7 @@ tries the other if the first is blocked.
 | `torus_free_sim.py` | No continuity, fixed routing, long runs in the low-blocking region | `torus_free_sim.csv` |
 | `torus_adaptive_sim.py` | Adaptive routing, with and without continuity | `torus_adaptive_sim.csv` |
 | `torus_retry_sim.py` | Time correlation of blocking: keeps a clock and, after each dropped request, probes whether the same route is still blocked after a set of delays (7×7, with and without continuity) | `torus_retry_sim.csv` |
+| `torus_obs_sim.py` | OBS-style continuity: the sender picks a wavelength free on its own link and the burst is lost at the first hop where it is busy; with and without lost bursts holding the hops already crossed | `torus_obs_sim.csv` |
 
 ## Models and plots (`analysis/`)
 
@@ -62,6 +77,7 @@ tries the other if the first is blocked.
 | `torus_compare.py` | Φ with and without continuity, fixed routing | `torus_free_sim.csv`, `torus_low_sim.csv`, `torus_wdm_sim.csv` | `torus_compare.png` |
 | `torus_adaptive.py` | Φ for adaptive routing against fixed routing | `torus_adaptive_sim.csv`, `torus_free_sim.csv`, `torus_low_sim.csv` | `torus_adaptive.png` |
 | `torus_retry.py` | Probability of being dropped again against the retry delay, with the single-link Erlang transient for the no-continuity case | `torus_retry_sim.csv` | `torus_retry.png` |
+| `torus_obs.py` | OBS burst loss against Erlang B with one channel at load Φ₁·a/K, with Φ₁ from a closed formula | `torus_obs_sim.csv` | `torus_obs.png` |
 | `torus_draw_grid.py` | Picture of the grid with node coordinates and link IDs as the simulators number them (`python3 analysis/torus_draw_grid.py 7`) | – | `torus_grid_3x3.png`, `torus_grid_7x7.png` |
 
 ## Reproducing
@@ -72,6 +88,7 @@ tries the other if the first is blocked.
     python3 simulations/torus_free_sim.py        # ~2 min
     python3 simulations/torus_adaptive_sim.py    # ~10 min
     python3 simulations/torus_retry_sim.py       # ~2 min
+    python3 simulations/torus_obs_sim.py         # ~4 min
     python3 analysis/torus_reduced_load.py
     python3 analysis/torus_low_blocking.py
     python3 analysis/torus_closed_form.py
@@ -79,6 +96,7 @@ tries the other if the first is blocked.
     python3 analysis/torus_compare.py
     python3 analysis/torus_adaptive.py
     python3 analysis/torus_retry.py
+    python3 analysis/torus_obs.py
 
 The CSV files in `results/data` are the results of these runs, so the model and
 plot scripts can be run directly without repeating the simulations.
