@@ -79,6 +79,7 @@ fitted. With K = 10, 1% loss is reached at 0.10, 0.07 and 0.06 Erlang per link.
 | `torus_retry.py` | Probability of being dropped again against the retry delay, with the single-link Erlang transient for the no-continuity case | `torus_retry_sim.csv` | `torus_retry.png` |
 | `torus_obs.py` | OBS burst loss against Erlang B with one channel at load Φ₁·a/K, with Φ₁ from a closed formula | `torus_obs_sim.csv` | `torus_obs.png` |
 | `torus_draw_grid.py` | Picture of the grid with node coordinates and link IDs as the simulators number them (`python3 analysis/torus_draw_grid.py 7`) | – | `torus_grid_3x3.png`, `torus_grid_7x7.png` |
+| `draw_wavelength_grid.py` | Explanatory picture: wavelengths against links on a line of nodes, showing what blocks a connection with and without continuity | – | `wavelength_grid.png` |
 
 ## Reproducing
 
