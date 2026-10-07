@@ -49,6 +49,7 @@ tries the other if the first is blocked.
 | `torus_low_sim.py` | Continuity, fixed routing, long runs in the low-blocking region | `torus_low_sim.csv` |
 | `torus_free_sim.py` | No continuity, fixed routing, long runs in the low-blocking region | `torus_free_sim.csv` |
 | `torus_adaptive_sim.py` | Adaptive routing, with and without continuity | `torus_adaptive_sim.csv` |
+| `torus_retry_sim.py` | Time correlation of blocking: keeps a clock and, after each dropped request, probes whether the same route is still blocked after a set of delays (7×7, with and without continuity) | `torus_retry_sim.csv` |
 
 ## Models and plots (`analysis/`)
 
@@ -60,6 +61,7 @@ tries the other if the first is blocked.
 | `torus_equivalent_load.py` | Fits Φ and checks ErlangB(Φ·a, K), continuity, fixed routing | `torus_low_sim.csv`, `torus_wdm_sim.csv` | `torus_equivalent_load.png` |
 | `torus_compare.py` | Φ with and without continuity, fixed routing | `torus_free_sim.csv`, `torus_low_sim.csv`, `torus_wdm_sim.csv` | `torus_compare.png` |
 | `torus_adaptive.py` | Φ for adaptive routing against fixed routing | `torus_adaptive_sim.csv`, `torus_free_sim.csv`, `torus_low_sim.csv` | `torus_adaptive.png` |
+| `torus_retry.py` | Probability of being dropped again against the retry delay, with the single-link Erlang transient for the no-continuity case | `torus_retry_sim.csv` | `torus_retry.png` |
 | `torus_draw_grid.py` | Picture of the grid with node coordinates and link IDs as the simulators number them (`python3 analysis/torus_draw_grid.py 7`) | – | `torus_grid_3x3.png`, `torus_grid_7x7.png` |
 
 ## Reproducing
@@ -69,12 +71,14 @@ tries the other if the first is blocked.
     python3 simulations/torus_low_sim.py         # ~7 min
     python3 simulations/torus_free_sim.py        # ~2 min
     python3 simulations/torus_adaptive_sim.py    # ~10 min
+    python3 simulations/torus_retry_sim.py       # ~2 min
     python3 analysis/torus_reduced_load.py
     python3 analysis/torus_low_blocking.py
     python3 analysis/torus_closed_form.py
     python3 analysis/torus_equivalent_load.py
     python3 analysis/torus_compare.py
     python3 analysis/torus_adaptive.py
+    python3 analysis/torus_retry.py
 
 The CSV files in `results/data` are the results of these runs, so the model and
 plot scripts can be run directly without repeating the simulations.
